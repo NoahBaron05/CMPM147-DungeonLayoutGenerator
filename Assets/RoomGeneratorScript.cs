@@ -11,7 +11,7 @@ using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCou
 public class RoomGeneratorScript : MonoBehaviour
 {
     [Header("Room Generation Rules")]
-    public int roomCount;
+    public int minimumRoomCount;
     [Range(0, 3)] public int maxBranching;
     [Range(0f, 1f)] public float branchConnectionChance;
     
@@ -84,7 +84,7 @@ public class RoomGeneratorScript : MonoBehaviour
 
         RoomNode current = startNode;
 
-        for (int i = 1; i < roomCount; i++)
+        for (int i = 1; i < minimumRoomCount; i++)
         {
             Vector2Int nextGrid = currentGrid + Vector2Int.right;
             List<Vector2Int> validMoves = new List<Vector2Int>();
