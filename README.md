@@ -18,7 +18,7 @@ To get started within Unity, create an empty game object, and title it: Room Gen
 
 For visual representation, you will want to drag the RoomNodePrefab asset within the assets folder into the respective box on the generator, labeled as Room Node Prefab. Then you can add the Unity preset Default-Line material onto the Line Materials box on the room generator. After doing this, your Room Generator game object should look like this:
 
-PUT IMAGE HERE
+![Setup](Setup.jpg)
 
 After this point, you can change any of the parameters to change what generation will look like, and then you can press the Unity play button, and the generator will create the layout and display it within the scene.
 
@@ -34,7 +34,7 @@ Then, create a new empty game object, label is as roomNodePrefab. Add the roomNo
 
 For visual representation, you can add whatever textures you want to the open fields, or you can use the Unity defaults. If you want to use the Unity defaults, you will want to drag your RoomNodePrefab asset you created into the respective field in the Room Generator game object. Then you can add the Unity preset Default-Line material onto the Line Materials box on the room generator. After doing this, your Room Generator game object should look like this:
 
-PUT IMAGE HERE
+![Setup](Setup.jpg)
 
 After this point, you can change any of the parameters to change what generation will look like, and then you can press the Unity play button, and the generator will create the layout and display it within the scene. If you don't want the generator to display a visual representation, then you can remove the DrawGraph() function from the RoomGeneratorScript.cs file, and update any implementation that you would like. 
 
