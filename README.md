@@ -2,7 +2,7 @@
 
 This generator tool creates room structures in order to create dungeon layouts. These layouts are defined by a starting and ending room, rest stops along the way, and different difficulty levels for every room. Random generation can be easily toggled through multiple options to create layouts that are unique and follow the design that is desired. This generator is designed to be used in unity projects, built to help with development in any dungeon based game, specifically geared towards rouge-like development.
 
-![Output](RoomLayout.jpg)
+![Output](images/RoomLayout.jpg)
 
 
 ## How to run the Dungeon Layout Generator
@@ -19,7 +19,7 @@ To get started within Unity, create an empty game object, and title it: Room Gen
 
 For visual representation, you will want to drag the RoomNodePrefab asset within the assets folder into the respective box on the generator, labeled as Room Node Prefab. Then you can add the Unity preset Default-Line material onto the Line Materials box on the room generator. After doing this, your Room Generator game object should look like this:
 
-![Setup](Setup.jpg)
+![Setup](images/Setup.jpg)
 
 After this point, you can change any of the parameters to change what generation will look like, and then you can press the Unity play button, and the generator will create the layout and display it within the scene.
 
@@ -35,7 +35,7 @@ Then, create a new empty game object, label is as roomNodePrefab. Add the roomNo
 
 For visual representation, you can add whatever textures you want to the open fields, or you can use the Unity defaults. If you want to use the Unity defaults, you will want to drag your RoomNodePrefab asset you created into the respective field in the Room Generator game object. Then you can add the Unity preset Default-Line material onto the Line Materials box on the room generator. After doing this, your Room Generator game object should look like this:
 
-![Setup](Setup.jpg)
+![Setup](images/Setup.jpg)
 
 After this point, you can change any of the parameters to change what generation will look like, and then you can press the Unity play button, and the generator will create the layout and display it within the scene. If you don't want the generator to display a visual representation, then you can remove the DrawGraph() function from the RoomGeneratorScript.cs file, and update any implementation that you would like. 
 
@@ -81,26 +81,26 @@ Main user feedback has to do with how interaction with the generator works, and 
 
 ## Example Outputs
 
-![Output](Output1.jpg)
-![Output](Output2.jpg)
-![Output](Output3.jpg)
-![Output](Output4.jpg)
-![Output](Output5.jpg)
-![Output](Output6.jpg)
-![Output](Output7.jpg)
-![Output](Output8.jpg)
-![Output](Output9.jpg)
-![Output](Output10.jpg)
-![Output](Output11.jpg)
-![Output](Output12.jpg)
-![Output](Output13.jpg)
-![Output](Output14.jpg)
-![Output](Output15.jpg)
-![Output](Output16.jpg)
-![Output](Output17.jpg)
-![Output](Output18.jpg)
-![Output](Output19.jpg)
-![Output](Output20.jpg)
+![Output](images/Output1.jpg)
+![Output](images/Output2.jpg)
+![Output](images/Output3.jpg)
+![Output](images/Output4.jpg)
+![Output](images/Output5.jpg)
+![Output](images/Output6.jpg)
+![Output](images/Output7.jpg)
+![Output](images/Output8.jpg)
+![Output](images/Output9.jpg)
+![Output](images/Output10.jpg)
+![Output](images/Output11.jpg)
+![Output](images/Output12.jpg)
+![Output](images/Output13.jpg)
+![Output](images/Output14.jpg)
+![Output](images/Output15.jpg)
+![Output](images/Output16.jpg)
+![Output](images/Output17.jpg)
+![Output](images/Output18.jpg)
+![Output](images/Output19.jpg)
+![Output](images/Output20.jpg)
 
 
 This project was initially designed in UCSC's CMPM 147, instructed by Tyler Coleman
