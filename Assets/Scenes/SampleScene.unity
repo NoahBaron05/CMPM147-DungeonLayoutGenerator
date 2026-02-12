@@ -152,12 +152,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b031844d3a2068641ac775b478a8eef3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomCount: 15
-  maxBranching: 3
-  branchConnectionChance: 0.253
-  restStops: 3
-  minRestStopDistance: 3
-  layoutDifficulty: 0.959
+  mainPathLength: 30
+  maxBranchesPerRoom: 2
+  extraConnectionChance: 0.557
+  restStopCount: 3
+  minRestStopSeparation: 3
+  difficultyBias: 0.227
   RoomNodePrefab: {fileID: 749138312686811753, guid: 912c715cd1510ce4ba1da38febf8b5b8, type: 3}
   lineMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!4 &483815848

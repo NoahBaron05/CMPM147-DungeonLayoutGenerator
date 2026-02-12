@@ -11,26 +11,27 @@ using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCou
 public class RoomGeneratorScript : MonoBehaviour
 {
     [Header("Room Generation Rules")]
-    public int minimumRoomCount;
-    [Range(0, 3)] public int maxBranching;
-    [Range(0f, 1f)] public float branchConnectionChance;
+    public uint mainPathLength;
+    [Range(0, 3)] public int maxBranchesPerRoom;
+    [Range(0f, 1f)] public float extraConnectionChance;
     
     [Header("Rest Stop Rules")]
-    public int restStops;
-    public int minRestStopDistance = 3;
+    public uint restStopCount;
+    public uint minRestStopSeparation = 3;
 
     [Header("Layout Difficulty Rules")]
-    [Range(0f, 1f)] public float layoutDifficulty;
+    [Range(0f, 1f)] public float difficultyBias;
 
-    private float spacing = 0.22f;
+    [Header("Visual Representation")]
+    public GameObject RoomNodePrefab;
+    public Material lineMaterial;
+
+    private float gridSpacing = 0.22f;
     private int idCounter = 1;
 
     private List<RoomNode> nodes = new List<RoomNode>();
     private RoomNode startNode;
     private RoomNode endNode;
-
-    public GameObject RoomNodePrefab;
-    public Material lineMaterial;
 
     HashSet<Vector2Int> occupied = new HashSet<Vector2Int>();
 
@@ -58,6 +59,7 @@ public class RoomGeneratorScript : MonoBehaviour
 
     void GenerateGraph() 
     {
+        // Resets generation
         nodes.Clear();
         occupied.Clear();
         idCounter = 1;
@@ -68,13 +70,15 @@ public class RoomGeneratorScript : MonoBehaviour
 
         ConnectBranches();
 
-        GenerateRestStops(nodes, restStops);
+        GenerateRestStops(nodes, restStopCount);
 
         AssignRoomDifficulty(nodes);
     }
 
+    // Generates the main path "spine" for the rest of generation to base off of, includes start and end rooms
     void GenerateMainPath(List<RoomNode> nodes)
     {
+        // Initializes grid, creates starting node
         Vector2Int currentGrid = Vector2Int.zero;
 
         startNode = new RoomNode(0, GridToWorld(currentGrid));
@@ -84,7 +88,8 @@ public class RoomGeneratorScript : MonoBehaviour
 
         RoomNode current = startNode;
 
-        for (int i = 1; i < minimumRoomCount; i++)
+        // Main loop to create main path
+        for (int i = 1; i < mainPathLength; i++)
         {
             Vector2Int nextGrid = currentGrid + Vector2Int.right;
             List<Vector2Int> validMoves = new List<Vector2Int>();
@@ -110,7 +115,7 @@ public class RoomGeneratorScript : MonoBehaviour
             nodes.Add(next);
             occupied.Add(currentGrid);
 
-            Connect(current, next);
+            ConnectRooms(current, next);
             current = next;
         }
 
@@ -118,6 +123,7 @@ public class RoomGeneratorScript : MonoBehaviour
         current.isEnd = true;
     }
 
+    // Creates rooms that branch off of the main "spine", based on a random chance chosen by user
     void GenerateBranching(List<RoomNode> nodes)
     {
         List<RoomNode> spine = new(nodes);
@@ -125,7 +131,12 @@ public class RoomGeneratorScript : MonoBehaviour
         foreach (RoomNode node in spine)
         {
             Vector2Int baseGrid = WorldToGrid(node.position);
-            int branches = Random.Range(0, maxBranching + 1);
+            int branches = Random.Range(0, maxBranchesPerRoom + 1);
+
+            if (node.isStart || node.isEnd)
+            {
+                continue;
+            }
 
             for (int i = 0; i < branches; i++)
             {
@@ -150,17 +161,18 @@ public class RoomGeneratorScript : MonoBehaviour
                 nodes.Add(branch);
                 occupied.Add(branchGrid);
 
-                Connect(node, branch);
+                ConnectRooms(node, branch);
             }
         }
     }
 
-    void Connect(RoomNode a, RoomNode b)
+    void ConnectRooms(RoomNode a, RoomNode b)
     {
         a.connections.Add(b);
         b.connections.Add(a);
     }
 
+    // Helper function to return a node at a specific grid position
     RoomNode GetNodeAtGrid(Vector2Int gridPos)
     {
         foreach (RoomNode node in nodes)
@@ -174,6 +186,7 @@ public class RoomGeneratorScript : MonoBehaviour
         return null;
     }
 
+    // Connects the branches after they've generated, based on the extra connection chance
     void ConnectBranches()
     {
         foreach(RoomNode node in nodes)
@@ -182,7 +195,7 @@ public class RoomGeneratorScript : MonoBehaviour
 
             foreach(Vector2Int direction in directions)
             {
-                if (Random.value > branchConnectionChance) continue;
+                if (Random.value > extraConnectionChance) continue;
 
                 Vector2Int neighborGrid = grid + direction;
                 RoomNode neighbor = GetNodeAtGrid(neighborGrid);
@@ -191,15 +204,17 @@ public class RoomGeneratorScript : MonoBehaviour
 
                 if (node.connections.Contains(neighbor)) continue;
 
-                Connect(node, neighbor);
+                ConnectRooms(node, neighbor);
             }
         }
     }
 
-    void GenerateRestStops(List<RoomNode> nodes, int numRests)
+    // Generates rest stops within the given layout, just changes a room into being a rest stop through the nodes data
+    void GenerateRestStops(List<RoomNode> nodes, uint numRests)
     {
         List<RoomNode> validCandidates = new();
 
+        // Finds possible rooms that could be nodes, excludes start and end
         foreach (RoomNode node in nodes)
         {
             if (node == startNode || node == endNode)
@@ -213,6 +228,7 @@ public class RoomGeneratorScript : MonoBehaviour
         int safety = 0;
         int maxAttempts = 1000;
         
+        // Continually loops until it finds a possible spot based on parameters, if unsuccessful, it will not generate enough rest stops
         while (placedRestStops.Count < numRests && safety < maxAttempts)
         {
             safety++;
@@ -221,14 +237,22 @@ public class RoomGeneratorScript : MonoBehaviour
 
             bool tooClose = false;
 
+            // Candidates cannot be start or end (sanity check)
             if (candidate == null || candidate == startNode || candidate == endNode)
             {
                 continue;
             }
 
+            // Cannot generate next to a start or end node
+            if (GridDistance(candidate, startNode) <= minRestStopSeparation || GridDistance(candidate, endNode) <= minRestStopSeparation)
+            {
+                continue;
+            }
+
+            // Checks to see if the rest stops are too close to each other
             foreach (RoomNode rest in placedRestStops)
             {
-                if (GridDistance(candidate, rest) <= minRestStopDistance)
+                if (GridDistance(candidate, rest) <= minRestStopSeparation)
                 {
                     tooClose = true;
                     break;
@@ -242,6 +266,7 @@ public class RoomGeneratorScript : MonoBehaviour
         }
     }
 
+    // Applies a difficulty to each room based on a curve/bias
     void AssignRoomDifficulty(List<RoomNode> nodes)
     {
         // Create new list for the combat rooms
@@ -257,8 +282,8 @@ public class RoomGeneratorScript : MonoBehaviour
         int total = combatRooms.Count;
 
         // Bias values based on difficulty slider
-        float hardWeight = Mathf.Pow(layoutDifficulty, 2f);
-        float easyWeight = Mathf.Pow(1f - layoutDifficulty, 2f);
+        float hardWeight = Mathf.Pow(difficultyBias, 2f);
+        float easyWeight = Mathf.Pow(1f - difficultyBias, 2f);
         float mediumWeight = 1f - (hardWeight + easyWeight);
 
         float weightSum = easyWeight + mediumWeight + hardWeight;
@@ -284,6 +309,7 @@ public class RoomGeneratorScript : MonoBehaviour
             combatRooms[index++].difficulty = RoomDifficulty.Hard;
     }
 
+    // Helper function for room difficulty to shuffle list elements
     void Shuffle<T>(List<T> list)
     {
         for (int i = 0; i < list.Count; i++)
@@ -293,6 +319,7 @@ public class RoomGeneratorScript : MonoBehaviour
         }
     }
 
+    // Non-essential function for generating the map, but this provides the visual representation
     void DrawGraph() 
     { 
         foreach(RoomNode node in nodes)
@@ -353,14 +380,14 @@ public class RoomGeneratorScript : MonoBehaviour
     //Helper functions for the grid system
     Vector2 GridToWorld(Vector2Int gridPos)
     {
-        return new Vector2(gridPos.x * spacing, gridPos.y * spacing);
+        return new Vector2(gridPos.x * gridSpacing, gridPos.y * gridSpacing);
     }
 
     Vector2Int WorldToGrid(Vector2 worldPos)
     {
         return new Vector2Int(
-            Mathf.RoundToInt(worldPos.x / spacing),
-            Mathf.RoundToInt(worldPos.y / spacing)
+            Mathf.RoundToInt(worldPos.x / gridSpacing),
+            Mathf.RoundToInt(worldPos.y / gridSpacing)
         );
     }
 
