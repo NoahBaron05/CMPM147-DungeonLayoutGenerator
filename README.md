@@ -2,7 +2,8 @@
 
 This generator tool creates room structures in order to create dungeon layouts. These layouts are defined by a starting and ending room, rest stops along the way, and different difficulty levels for every room. Random generation can be easily toggled through multiple options to create layouts that are unique and follow the design that is desired. This generator is designed to be used in unity projects, built to help with development in any dungeon based game, specifically geared towards rouge-like development.
 
-![Output](RoomLayoutOutput.jpg)
+![Output](RoomLayout.jpg)
+
 
 ## How to run the Dungeon Layout Generator
 
@@ -68,11 +69,6 @@ This integer will determine the minimum distance that each rest stop can be from
 This percentage will determine the general difficulty bias on a curve for how the layout will be. In the visual representation, easy rooms are light gray, medium rooms are medium grey, and hard rooms are dark grey. Changing this parameter will meaningfully adjust the weighting of difficulty rooms, and how often certain difficulties will appear. For example, a low difficulty bias will create many easy rooms, while a high difficulty bias will create many hard rooms within the layout.
 
 
-## Example Outputs
-
-INSERT IMAGES
-
-
 ## Known Limitations
 
 The main limitation behind this generator has to do with the spine generation. At times, the generation can curve within itself, and generation will stop before reaching the main path length. This can result in dungeon layouts that are far smaller than requested, and don't fully follow the requested parameters. Furthermore, based on the min rest stop seperation parameter, layouts can be generated with less rest stops than requested. The min rest stop seperation parameter takes precedence over the rest stop count parameter, so at times less rest stops will be generated than wanted. Finally, the last known limitation involves the starting and ending rooms. At time in generation, the starting and ending room can appear somewhat close to each other within the layout, making most of the layout feel obsolete. This is due to the spine based generation, followed by the branching and connection chance parameters, and how the spine based generation works.
@@ -81,6 +77,30 @@ The main limitation behind this generator has to do with the spine generation. A
 ## User Feedback
 
 Main user feedback has to do with how interaction with the generator works, and how it behaves. Users struggled with understanding what variables meant, and what they meaninfully did. Later, I renamed that variables to names that better suit what they are representing, and are easier to understand when utilizing the generator. Furthermore, users detected strange generation, especially with the starting and ending rooms. At times, they would generate a "peninsula" with the starting or ending room, which wouldn't make much sense ni an actual dungeon layout. Users also attempted to break the generator by causing parameters to go negative, and having paraters flash with each other logicially. That functionally has since been patched out.
+
+
+## Example Outputs
+
+![Output](Output1.jpg)
+![Output](Output2.jpg)
+![Output](Output3.jpg)
+![Output](Output4.jpg)
+![Output](Output5.jpg)
+![Output](Output6.jpg)
+![Output](Output7.jpg)
+![Output](Output8.jpg)
+![Output](Output9.jpg)
+![Output](Output10.jpg)
+![Output](Output11.jpg)
+![Output](Output12.jpg)
+![Output](Output13.jpg)
+![Output](Output14.jpg)
+![Output](Output15.jpg)
+![Output](Output16.jpg)
+![Output](Output17.jpg)
+![Output](Output18.jpg)
+![Output](Output19.jpg)
+![Output](Output20.jpg)
 
 
 This project was initially designed in UCSC's CMPM 147, instructed by Tyler Coleman
