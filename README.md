@@ -1,11 +1,11 @@
-# Dungeon Layout Generator
+# Room Layout Generator
 
-This generator tool creates room structures in order to create dungeon layouts. These layouts are defined by a starting and ending room, rest stops along the way, and different difficulty levels for every room. Random generation can be easily toggled through multiple options to create layouts that are unique and follow the design that is desired. This generator is designed to be used in unity projects, built to help with development in any dungeon based game, specifically geared towards rouge-like development.
+This generator tool creates room structures in order to create room layouts. These layouts are defined by a starting and ending room, rest stops along the way, and different difficulty levels for every room. Random generation can be easily toggled through multiple options to create layouts that are unique and follow the design that is desired. This generator is designed to be used in unity projects, built to help with development in any room based game, specifically geared towards rouge-like development.
 
 ![Output](images/RoomLayout.jpg)
 
 
-## How to run the Dungeon Layout Generator
+## How to run the Room Layout Generator
 
 This tool is intended to be used in Unity 2D, it will not work any other development environments.
 
@@ -71,12 +71,12 @@ This percentage will determine the general difficulty bias on a curve for how th
 
 ## Known Limitations
 
-The main limitation behind this generator has to do with the spine generation. At times, the generation can curve within itself, and generation will stop before reaching the main path length. This can result in dungeon layouts that are far smaller than requested, and don't fully follow the requested parameters. Furthermore, based on the min rest stop seperation parameter, layouts can be generated with less rest stops than requested. The min rest stop seperation parameter takes precedence over the rest stop count parameter, so at times less rest stops will be generated than wanted. Finally, the last known limitation involves the starting and ending rooms. At time in generation, the starting and ending room can appear somewhat close to each other within the layout, making most of the layout feel obsolete. This is due to the spine based generation, followed by the branching and connection chance parameters, and how the spine based generation works.
+The main limitation behind this generator has to do with the spine generation. At times, the generation can curve within itself, and generation will stop before reaching the main path length. This can result in room layouts that are far smaller than requested, and don't fully follow the requested parameters. Furthermore, based on the min rest stop seperation parameter, layouts can be generated with less rest stops than requested. The min rest stop seperation parameter takes precedence over the rest stop count parameter, so at times less rest stops will be generated than wanted. Finally, the last known limitation involves the starting and ending rooms. At time in generation, the starting and ending room can appear somewhat close to each other within the layout, making most of the layout feel obsolete. This is due to the spine based generation, followed by the branching and connection chance parameters, and how the spine based generation works.
 
 
 ## User Feedback
 
-Main user feedback has to do with how interaction with the generator works, and how it behaves. Users struggled with understanding what variables meant, and what they meaninfully did. Later, I renamed that variables to names that better suit what they are representing, and are easier to understand when utilizing the generator. Furthermore, users detected strange generation, especially with the starting and ending rooms. At times, they would generate a "peninsula" with the starting or ending room, which wouldn't make much sense ni an actual dungeon layout. Users also attempted to break the generator by causing parameters to go negative, and having paraters flash with each other logicially. That functionally has since been patched out.
+Main user feedback has to do with how interaction with the generator works, and how it behaves. Users struggled with understanding what variables meant, and what they meaninfully did. Later, I renamed that variables to names that better suit what they are representing, and are easier to understand when utilizing the generator. Furthermore, users detected strange generation, especially with the starting and ending rooms. At times, they would generate a "peninsula" with the starting or ending room, which wouldn't make much sense ni an actual room layout. Users also attempted to break the generator by causing parameters to go negative, and having paraters flash with each other logicially. That functionally has since been patched out.
 
 
 ## Example Outputs
