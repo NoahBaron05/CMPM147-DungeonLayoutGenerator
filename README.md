@@ -21,7 +21,7 @@ For visual representation, you will want to drag the RoomNodePrefab asset within
 
 ![Setup](images/Setup.jpg)
 
-After this point, you can change any of the parameters to change what generation will look like, and then you can press the Unity play button, and the generator will create the layout and display it within the scene.
+After this point, you can change any of the parameters to change what generation will look like. You can do this by adjusting the numbers and sliders found on the Room Generator game object, and then you can press the Unity play button, and the generator will create the layout and display it within the scene.
 
 ### If you want to put the generator into a current project:
 
@@ -37,7 +37,7 @@ For visual representation, you can add whatever textures you want to the open fi
 
 ![Setup](images/Setup.jpg)
 
-After this point, you can change any of the parameters to change what generation will look like, and then you can press the Unity play button, and the generator will create the layout and display it within the scene. If you don't want the generator to display a visual representation, then you can remove the DrawGraph() function from the RoomGeneratorScript.cs file, and update any implementation that you would like. 
+After this point, you can change any of the parameters to change what generation will look like. You can do this by adjusting the numbers and sliders found on the Room Generator game object, and then you can press the Unity play button, and the generator will create the layout and display it within the scene. If you don't want the generator to display a visual representation, then you can remove the DrawGraph() function from the RoomGeneratorScript.cs file, and update any implementation that you would like. 
 
 
 ## Generation Parameters
